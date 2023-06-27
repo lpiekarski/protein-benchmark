@@ -25,18 +25,18 @@ tokenized_test = dataset["test"].map(preprocess_function, batched=True)
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-model_path = "output/checkpoint-50000"
+model_path = "facebook/esm2_t6_8M_UR50D"
 model = AutoModelForSequenceClassification.from_pretrained(model_path, num_labels=num_classes)
 
 # Define test trainer
 test_trainer = Trainer(
     model,
-    compute_metrics=compute_metrics,
-    data_collator=data_collator
+    data_collator=data_collator,
+    compute_metrics=compute_metrics
 )
 
 model_predictions = test_trainer.predict(tokenized_test)
 
-final_score = metric.compute(predictions=model_predictions, references=tokenized_test["labels"])
-
-print(f"Final score: {final_score}")
+print(f"{model_predictions.metrics}")
+with open("eval.txt", "w") as f:
+    f.write(f"{model_predictions.metrics}")
