@@ -38,7 +38,8 @@ training_args = TrainingArguments(
     do_eval=True,
     load_best_model_at_end=True,
     eval_steps=500,
-    evaluation_strategy="steps"
+    evaluation_strategy="steps",
+    fp16=True
 )
 
 trainer = Trainer(
