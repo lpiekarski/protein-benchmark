@@ -22,8 +22,7 @@ def preprocess_function(examples):
 
 
 tokenized_train = dataset["train"].map(preprocess_function, batched=True)
-tokenized_val = dataset["val"].map(preprocess_function, batched=True)
-tokenized_test = dataset["test"].map(preprocess_function, batched=True)
+tokenized_val = dataset["validation"].map(preprocess_function, batched=True)
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
