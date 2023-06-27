@@ -29,6 +29,14 @@ model_path = "output/checkpoint-50000"
 model = AutoModelForSequenceClassification.from_pretrained(model_path, num_labels=num_classes)
 
 # Define test trainer
-test_trainer = Trainer(model, compute_metrics=compute_metrics)
+test_trainer = Trainer(
+    model,
+    compute_metrics=compute_metrics,
+    data_collator=data_collator
+)
 
-test_trainer.evaluate(tokenized_test)
+model_predictions = test_trainer.predict(tokenized_test)
+
+final_score = metric.compute(predictions=model_predictions, references=tokenized_test["labels"])
+
+print(f"Final score: {final_score}")
