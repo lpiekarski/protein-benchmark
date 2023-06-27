@@ -1,15 +1,11 @@
-from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer, AutoTokenizer, DataCollatorWithPadding
-from datasets import load_dataset
+from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer, AutoTokenizer, DataCollatorWithPadding, EarlyStoppingCallback
+
 from evaluate import load
 import numpy as np
 
-metric = load("accuracy")
+from properties import sequences_key, model_checkpoint, dataset, num_classes
 
-model_checkpoint = "facebook/esm2_t12_35M_UR50D"
-dataset = load_dataset("proteinea/solubility")
-sequences_key = "sequences"
-labels_key = "labels"
-num_classes = 2
+metric = load("accuracy")
 
 
 def compute_metrics(eval_pred):
@@ -26,6 +22,7 @@ def preprocess_function(examples):
 
 
 tokenized_train = dataset["train"].map(preprocess_function, batched=True)
+tokenized_val = dataset["val"].map(preprocess_function, batched=True)
 tokenized_test = dataset["test"].map(preprocess_function, batched=True)
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
@@ -35,19 +32,25 @@ model = AutoModelForSequenceClassification.from_pretrained(model_checkpoint, num
 training_args = TrainingArguments(
     output_dir="./results/",
     learning_rate=2e-5,
-    per_device_train_batch_size=8,
-    per_device_eval_batch_size=8,
-    num_train_epochs=1
+    per_device_train_batch_size=64,
+    per_device_eval_batch_size=64,
+    num_train_epochs=3,
+    do_train=True,
+    do_eval=True,
+    load_best_model_at_end=True,
+    eval_steps=500,
+    evaluation_strategy="steps"
 )
 
 trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_train,
-    eval_dataset=tokenized_test,
+    eval_dataset=tokenized_val,
     tokenizer=tokenizer,
     data_collator=data_collator,
-    compute_metrics=compute_metrics
+    compute_metrics=compute_metrics,
+    callbacks=[EarlyStoppingCallback(early_stopping_patience=5)]
 )
 
 trainer.train()
