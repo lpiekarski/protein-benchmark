@@ -4,7 +4,7 @@
 #SBATCH --qos=1gpu1d
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
-#SBATCH --output=results/esm2_t6_8M_UR50D/solubility/output.log
-#SBATCH --error=results/esm2_t6_8M_UR50D/solubility/error.log
+#SBATCH --output=output_solubility_esm2_t6_8M_UR50D.log
+#SBATCH --error=error_solubility_esm2_t6_8M_UR50D.log
 
 ./venv/bin/python solubility/run.py facebook/esm2_t6_8M_UR50D 1

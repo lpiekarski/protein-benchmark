@@ -4,7 +4,7 @@
 #SBATCH --qos=1gpu1d
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
-#SBATCH --output=results/simcse_esm2_t6_8M_UR50D/solubility/output.log
-#SBATCH --error=results/simcse_esm2_t6_8M_UR50D/solubility/error.log
+#SBATCH --output=output_solubility_simcse_esm2_t6_8M_UR50D.log
+#SBATCH --error=error_solubility_simcse_esm2_t6_8M_UR50D.log
 
 ./venv/bin/python solubility/run.py lpiekarski/simcse_esm2_t6_8M_UR50D 1
