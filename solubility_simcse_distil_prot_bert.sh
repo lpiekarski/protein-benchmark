@@ -6,5 +6,6 @@
 #SBATCH --gres=gpu:1
 #SBATCH --output=output_solubility_simcse_distil_prot_bert.log
 #SBATCH --error=error_solubility_simcse_distil_prot_bert.log
+#SBATCH --time=0-3:00:00
 
 ./venv/bin/python solubility/run.py lpiekarski/simcse_distil_prot_bert 8
