@@ -24,7 +24,7 @@ def eval_seq_classification_task(model_checkpoint, gradient_accumulation, datase
         tokenized_train = dataset["train"].map(preprocess_function, batched=True)
         tokenized_val = dataset["validation"].map(preprocess_function, batched=True)
     else:
-        ds = dataset["train"].split(test_size=0.15)
+        ds = dataset["train"].train_test_split()
         tokenized_train = ds["train"].map(preprocess_function, batched=True)
         tokenized_val = ds["test"].map(preprocess_function, batched=True)
 
