@@ -8,4 +8,4 @@
 #SBATCH --error=error_human_proteome_triplets_distil_prot_bert.log
 #SBATCH --time=0-3:00:00
 
-./venv/bin/python human_proteome_triplets/run.py yarongef/DistilProtBert 8
+./venv/bin/python human_proteome_triplets.py yarongef/DistilProtBert 8

@@ -8,4 +8,4 @@
 #SBATCH --error=error_human_proteome_singlets_simcse_esm2_t6_8M_UR50D.log
 #SBATCH --time=0-3:00:00
 
-./venv/bin/python human_proteome_singlets/run.py facebook/esm2_t6_8M_UR50D 8
+./venv/bin/python human_proteome_singlets.py facebook/esm2_t6_8M_UR50D 8

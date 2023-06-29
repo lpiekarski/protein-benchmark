@@ -8,4 +8,4 @@
 #SBATCH --error=error_human_proteome_doublets_simcse_distil_prot_bert.log
 #SBATCH --time=0-3:00:00
 
-./venv/bin/python human_proteome_doublets/run.py lpiekarski/simcse_distil_prot_bert 8
+./venv/bin/python human_proteome_doublets.py lpiekarski/simcse_distil_prot_bert 8

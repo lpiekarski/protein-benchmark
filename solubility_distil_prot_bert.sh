@@ -8,4 +8,4 @@
 #SBATCH --error=error_solubility_distil_prot_bert.log
 #SBATCH --time=0-3:00:00
 
-./venv/bin/python solubility/run.py yarongef/DistilProtBert 8
+./venv/bin/python solubility.py yarongef/DistilProtBert 8
