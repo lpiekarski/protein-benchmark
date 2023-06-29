@@ -39,7 +39,7 @@ def eval_seq_classification_task(model_checkpoint, gradient_accumulation, datase
         learning_rate=2e-5,
         per_device_train_batch_size=64 // gradient_accumulation,
         per_device_eval_batch_size=64 // gradient_accumulation,
-        num_train_epochs=2,
+        num_train_epochs=5,
         do_train=True,
         do_eval=True,
         load_best_model_at_end=True,
