@@ -1,10 +1,11 @@
+from sklearn.model_selection import train_test_split
 from transformers import AutoModelForSequenceClassification, TrainingArguments, Trainer, AutoTokenizer, DataCollatorWithPadding, EarlyStoppingCallback
 from datasets import load_dataset
 from evaluate import load
 import numpy as np
 
 
-def eval_seq_classification_task(model_checkpoint, gradient_accumulation, dataset_name, sequences_key, num_classes):
+def eval_seq_classification_task(model_checkpoint, gradient_accumulation, dataset_name, sequences_key, num_classes, has_validation=False):
     dataset = load_dataset(dataset_name)
 
     metric = load("accuracy")
@@ -19,8 +20,14 @@ def eval_seq_classification_task(model_checkpoint, gradient_accumulation, datase
     def preprocess_function(examples):
         return tokenizer(examples[sequences_key], truncation=True)
 
-    tokenized_train = dataset["train"].map(preprocess_function, batched=True)
-    tokenized_val = dataset["validation"].map(preprocess_function, batched=True)
+    if has_validation:
+        tokenized_train = dataset["train"].map(preprocess_function, batched=True)
+        tokenized_val = dataset["validation"].map(preprocess_function, batched=True)
+    else:
+        train_data, test_data = train_test_split(dataset["train"], test_size=0.15)
+        tokenized_train = train_data.map(preprocess_function, batched=True)
+        tokenized_val = test_data.map(preprocess_function, batched=True)
+
     tokenized_test = dataset["test"].map(preprocess_function, batched=True)
 
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
