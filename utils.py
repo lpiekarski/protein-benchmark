@@ -8,7 +8,7 @@ import numpy as np
 def eval_seq_classification_task(model_checkpoint, gradient_accumulation, dataset_name, sequences_key, num_classes, has_validation=False):
     dataset = load_dataset(dataset_name)
 
-    metric = load("accuracy")
+    metric = load("roc_auc")
 
     def compute_metrics(eval_pred):
         predictions, labels = eval_pred
